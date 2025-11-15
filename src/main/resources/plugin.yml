@@ -1,0 +1,5 @@
+name: Withdrawal
+main: com.blocky.withdrawal.WithdrawalPlugin
+version: 1.0
+description: Credits items from JSON withdrawals found on disk
+depend: [AuthPlugin]
