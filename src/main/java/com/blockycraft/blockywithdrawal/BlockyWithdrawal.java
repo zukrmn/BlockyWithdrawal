@@ -33,7 +33,6 @@ public class BlockyWithdrawal extends JavaPlugin {
     private int initialInventoryRetryDelaySeconds = 10;
     
     private int maxRetries = 5;
-    private int taskId = -1;
     private BlockyAuth blockyAuth;
     
     private Map<String, Integer> retryCounts = new HashMap<String, Integer>();
@@ -122,7 +121,7 @@ public class BlockyWithdrawal extends JavaPlugin {
         inboxDir.mkdirs(); processedDir.mkdirs(); errorDir.mkdirs();
 
         long period = Math.max(1, pollSeconds) * 20L;
-        taskId = getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() { tickScan(); }
         }, 40L, period);
 
@@ -275,12 +274,10 @@ public class BlockyWithdrawal extends JavaPlugin {
             return ProcessResult.DEFERRED;
         }
 
-        boolean credited = creditAll(p, requests);
-        if (!credited) {
+        if (!creditAll(p, requests)) {
             LOG.warning("[Withdrawal] unexpected leftover when adding items for " + username);
             return ProcessResult.RETRY;
         }
-        try { p.updateInventory(); } catch (Throwable ignored) {}
 
         Map<String, String> placeholders = new HashMap<>();
         placeholders.put("summary", summarize(requests));
