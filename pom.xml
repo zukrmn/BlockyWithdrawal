@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.blocky</groupId>
-    <artifactId>WithdrawalPlugin</artifactId>
+    <groupId>com.blockycraft.blockywithdrawal</groupId>
+    <artifactId>BlockyWithdrawal</artifactId>
     <version>1.0.0</version>
     <description>Withdrawal items from the blocky minecraft commodities exchange into the minecraft world</description>
     <packaging>jar</packaging>
 
-    <name>WithdrawalPlugin</name>
+    <name>BlockyWithdrawal</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

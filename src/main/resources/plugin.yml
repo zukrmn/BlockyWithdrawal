@@ -1,5 +1,5 @@
-name: Withdrawal
-main: com.blocky.withdrawal.WithdrawalPlugin
+name: BlockyWithdrawal
+main: com.blockycraft.blockywithdrawal.BlockyWithdrawal
 version: 1.0
 description: Credits items from JSON withdrawals found on disk
-depend: [AuthPlugin]
+depend: [BlockyAuth]

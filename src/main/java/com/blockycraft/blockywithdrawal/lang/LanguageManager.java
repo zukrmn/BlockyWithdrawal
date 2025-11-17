@@ -1,24 +1,19 @@
 package com.blockycraft.blockywithdrawal.lang;
 
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.ChatColor;
 
-import com.blockycraft.blockywithdrawal.BlockyWithdrawal;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
+import java.nio.file.Files;
 
 public class LanguageManager {
-    private final BlockyWithdrawal plugin;
+    private final JavaPlugin plugin;
     private final Map<String, Properties> messages = new HashMap<>();
-    private final String defaultLang = "en";
+    private final String defaultLang = "pt";
 
-    public LanguageManager(BlockyWithdrawal plugin) {
+    public LanguageManager(JavaPlugin plugin) {
         this.plugin = plugin;
         loadLanguages();
     }
@@ -30,8 +25,8 @@ public class LanguageManager {
             langFolder.mkdirs();
         }
 
-        saveDefaultLanguageFile("messages_en.properties");
         saveDefaultLanguageFile("messages_pt.properties");
+        saveDefaultLanguageFile("messages_en.properties");
         saveDefaultLanguageFile("messages_es.properties");
 
         for (File langFile : langFolder.listFiles((dir, name) -> name.startsWith("messages_") && name.endsWith(".properties"))) {
@@ -40,9 +35,9 @@ public class LanguageManager {
             try (InputStreamReader reader = new InputStreamReader(new FileInputStream(langFile), StandardCharsets.UTF_8)) {
                 props.load(reader);
                 messages.put(lang, props);
-                plugin.getServer().getLogger().info("Loaded language: " + lang);
+                System.out.println("Loaded language: " + lang);
             } catch (Exception e) {
-                plugin.getServer().getLogger().severe("Could not load language file: " + langFile.getName());
+                System.out.println("Could not load language file: " + langFile.getName());
                 e.printStackTrace();
             }
         }
@@ -57,10 +52,10 @@ public class LanguageManager {
                     if (!parentDir.exists()) {
                         parentDir.mkdirs();
                     }
-                    java.nio.file.Files.copy(in, langFile.toPath());
+                    Files.copy(in, langFile.toPath());
                 }
             } catch (Exception e) {
-                plugin.getServer().getLogger().severe("Could not save default language file: " + fileName);
+                System.out.println("Could not save default language file: " + fileName);
                 e.printStackTrace();
             }
         }
@@ -76,7 +71,7 @@ public class LanguageManager {
         if (message == null) {
             message = messages.get(defaultLang).getProperty(key, "§cMissing translation for key: " + key);
         }
-        
+
         if (placeholders != null) {
             for (Map.Entry<String, String> entry : placeholders.entrySet()) {
                 message = message.replace("{" + entry.getKey() + "}", entry.getValue());
